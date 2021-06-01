@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Hello World</title>
+  <title>UpCode Imagereporter</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="/manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +10,21 @@
  </head>
 <body class="fullscreen">
   <div class="container">
-    <h1 class="title">Hello World!</h1>
+    <h3 class="title">UpCode Imagereporter</h3>
+    <div id="content" class="content">
+        <video id="video"autoplay></video>
+        <image id= "canvas" style="display: none; width: 100%;"></image>
+        <div id="results" class="content" style="display: none;"></div>
+    </div>
+    <div id="buttons">
+        <button id="get-access">Get access to camera</button>
+        <button id="take-photo" style="display: none;">Take a photo</button>
+    </div>
+    
+
 </div>
 <script src="js/main.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
 </body>
 </html>
