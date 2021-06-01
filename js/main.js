@@ -119,12 +119,12 @@ function processReply(data)
         canvas.src = objectURL
         
         div.innerHTML = "Results:<br>";
-        
+
         json_data.items.forEach(Element => {
 
 
             
-            div.innerHTML += Element.label;
+            div.innerHTML += Element.label + "<br>";
 
         });
 
@@ -152,4 +152,34 @@ function base64toBlob(base64Data, contentType) {
         byteArrays[sliceIndex] = new Uint8Array(bytes);
     }
     return new Blob(byteArrays, { type: contentType });
+}
+
+
+function imageFromFile(filename)
+{
+    if (filename !== null) 
+    {
+        var MIMEType = filename.type;
+
+        // decode base64 string, remove space for IE compatibility
+        var reader = new FileReader();
+
+        reader.onload = function(readerEvt) 
+        {
+
+                // This is done just for the proof of concept
+            var binaryString = readerEvt.target.result;
+            var base64 = btoa(binaryString);
+            var blobfile = atob(base64);
+
+
+            blobFromBlobFile = base64toBlob(base64, MIMEType, 512);
+            blobURL = URL.createObjectURL(blobFromBlobFile);
+
+            postImage(blobFromBlobFile)
+        }
+
+        reader.readAsBinaryString(filename);
+      }
+
 }

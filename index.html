@@ -13,11 +13,12 @@
     <h3 class="title">UpCode Imagereporter</h3>
     <div id="content" class="content">
         <video id="video"autoplay></video>
+        <input id="file-input" type="file" accept="image/*" capture="environment">
         <image id= "canvas" style="display: none; width: 100%;"></image>
         <div id="results" class="content" style="display: none;"></div>
     </div>
     <div id="buttons">
-        <button id="get-access">Get access to camera</button>
+        <button id="get-access" style="display: none;">Get access to camera</button>
         <button id="take-photo" style="display: none;">Take a photo</button>
     </div>
     
@@ -25,6 +26,10 @@
 </div>
 <script src="js/main.js"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-
+<script>
+    const fileInput = document.getElementById('file-input');
+  
+    fileInput.addEventListener('change', (e) => imageFromFile(e.target.files[0]));
+  </script>
 </body>
 </html>
