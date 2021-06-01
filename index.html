@@ -5,6 +5,7 @@
   <title>UpCode Imagereporter</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="/manifest.json">
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="white"/>
  </head>
@@ -21,15 +22,25 @@
         <button id="get-access" style="display: none;">Get access to camera</button>
         <button id="take-photo" style="display: none;">Take a photo</button>
     </div>
-    
+
 
 </div>
 <script src="js/main.js"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script>
-    const fileInput = document.getElementById('file-input');
+    $( document ).ready(function() {
+    
+        const fileInput = document.getElementById('file-input');
+        fileInput.addEventListener( 'change', function( e ) 
+        {
+            imageFromFile(e.target.files[0])
+            //fileInput.addEventListener('change', (e) => imageFromFile(e.target.files[0]));
+        })
+    });
+    
   
-    fileInput.addEventListener('change', (e) => imageFromFile(e.target.files[0]));
+   
+
   </script>
 </body>
 </html>
