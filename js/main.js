@@ -80,6 +80,9 @@ function takePhoto() {
 function postImage(blobData)
 {
 
+    document.querySelector('#results').style.display = '';
+    document.querySelector('#results').innerHTML = "Processing...";
+
     const formData = new FormData()
     formData.append('file', blobData, 'test')
 
