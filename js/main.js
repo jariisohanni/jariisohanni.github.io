@@ -87,7 +87,7 @@ function postImage(blobData)
     formData.append('file', blobData, 'test')
 
     var localServer = "http://127.0.0.1:8000/recognise"
-    var remoteServer = "http://upcodeimagereporter-env-1.eba-8ahixygm.eu-central-1.elasticbeanstalk.com/upload"
+    var remoteServer = "https://vast-peak-10418.herokuapp.com/upload"
 
     fetch(remoteServer, 
       {method:"POST", headers: {
