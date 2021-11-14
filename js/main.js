@@ -237,7 +237,7 @@ function imageFromFile(filename)
             blobFromBlobFile = base64toBlob(base64, MIMEType, 512);
             blobURL = URL.createObjectURL(blobFromBlobFile);
 
-            postImage(blobFromBlobFile,blobFromBlobFile)
+            postImage(blobFromBlobFile,blobfile)
         }
 
         reader.readAsBinaryString(filename);
