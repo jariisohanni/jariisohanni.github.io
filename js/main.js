@@ -87,9 +87,14 @@ function postImage(blobData)
     formData.append('file', blobData, 'test')
 
     var localServer = "http://127.0.0.1:8000/recognise"
-    var remoteServer = "https://cryptic-springs-43803.herokuapp.com/recognise"
+    var remoteServer = "http://upcodeimagereporter-env-1.eba-8ahixygm.eu-central-1.elasticbeanstalk.com/upload"
 
-    fetch(remoteServer, {method:"POST", body:formData})
+    fetch(remoteServer, 
+      {method:"POST", headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "text/plain"
+    },  body:formData}
+      )
             .then(response => {
                 if (response.ok) return response;
                 else throw Error(`Server returned ${response.status}: ${response.statusText}`)
