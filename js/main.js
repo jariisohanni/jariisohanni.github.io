@@ -99,7 +99,7 @@ function postImage(blobData,file)
         if(obj.result < 0)
         {
           document.querySelector('#results').style.display = '';
-          document.querySelector('#results').innerHTML = "error: " + request.status +", " + request.statusText;
+          document.querySelector('#results').innerHTML = "error: " + obj.result +", " + obj.error.message;
         }
       }
       else if(request.status != 200) 
