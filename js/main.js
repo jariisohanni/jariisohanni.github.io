@@ -83,7 +83,21 @@ function postImage(blobData,file)
     document.querySelector('#results').style.display = '';
     document.querySelector('#results').innerHTML = "Processing...";
 
-    const formData = new FormData()
+
+    const API_ENDPOINT = "https://vast-peak-10418.herokuapp.com/upload";
+    const request = new XMLHttpRequest();
+    const formData = new FormData();
+
+    request.open("POST", API_ENDPOINT, true);
+    request.onreadystatechange = () => {
+      if (request.readyState === 4 && request.status === 200) {
+        console.log(request.responseText);
+      }
+    };
+    formData.append("file", file);
+    request.send(formData);
+
+   /* const formData = new FormData()
     formData.append('file', file)
 
     var localServer = "http://127.0.0.1:8000/recognise"
@@ -127,7 +141,7 @@ function postImage(blobData,file)
         xml.setRequestHeader("Content-Length", formData.length);
         xml.open(method, url);
         xml.send(formData);
-    });
+    });*/
 
 
     
