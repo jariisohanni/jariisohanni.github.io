@@ -89,23 +89,48 @@ function postImage(blobData,file)
     var localServer = "http://127.0.0.1:8000/recognise"
     var remoteServer = "https://vast-peak-10418.herokuapp.com/upload"
 
+    var data = new RawFormData();
+    data.append("file", new Blob("test"), file);
+    data.getOutputDeferred().then(function(formData)
+    {
+        fetch(remoteServer, 
+          {
+            method:"POST", 
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "multipart/form-data; boundary=" + data.getBoundry(),
+              "Content-Length": formData.length
 
-    fetch(remoteServer, 
-      {method:"POST", headers: {
-        "Access-Control-Allow-Origin": "*"
-    },  mode: 'no-cors', body:formData}
-      )
-            .then(response => {
-                if (response.ok) return response;
-                else throw Error(`Server returned ${response.status}: ${response.statusText}`)
-            })
-            .then(r => r.json())
-            .then(data => {
-                processReply(data)
-              })
-            .catch(err => {
-                alert(err);
-            });
+            },
+            mode: 'no-cors', 
+            body:formData}
+          )
+          .then(response => 
+          {
+              if (response.ok) 
+                return response;
+              else 
+                throw Error(`Server returned ${response.status}: ${response.statusText}`)
+          })
+          .then(r => r.json())
+          .then(data =>
+          {
+              processReply(data)
+          })
+          .catch(err => 
+          {
+              alert(err);
+          });
+
+        var xml = new XMLHttpRequest();
+        xml.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + data.getBoundry());
+        xml.setRequestHeader("Content-Length", formData.length);
+        xml.open(method, url);
+        xml.send(formData);
+    });
+
+
+    
 }
 
 function processReply(data)
