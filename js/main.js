@@ -92,7 +92,7 @@ function postImage(blobData)
     fetch(remoteServer, 
       {method:"POST", headers: {
         "Access-Control-Allow-Origin": "*",
-        "Content-Type": "text/plain"
+        "Content-Type": "multipart/form-data"
     },  mode: 'no-cors', body:formData}
       )
             .then(response => {
