@@ -89,9 +89,17 @@ function postImage(blobData,file)
     const formData = new FormData();
 
     request.open("POST", API_ENDPOINT, true);
-    request.onreadystatechange = () => {
-      if (request.readyState === 4 && request.status === 200) {
+    request.onreadystatechange = () =>
+    {
+      if (request.readyState === 4 && request.status === 200) 
+      {
+        const obj = JSON.parse(request.responseText)
+
         console.log(request.responseText);
+      }
+      else
+      {
+          alert("error: " + request.status +", " + request.statusText);
       }
     };
     formData.append("file", file);
