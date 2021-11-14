@@ -93,7 +93,7 @@ function postImage(blobData)
       {method:"POST", headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "text/plain"
-    },  body:formData}
+    },  mode: 'no-cors', body:formData}
       )
             .then(response => {
                 if (response.ok) return response;
