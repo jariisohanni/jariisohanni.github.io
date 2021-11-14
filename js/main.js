@@ -97,9 +97,10 @@ function postImage(blobData,file)
 
         console.log(request.responseText);
       }
-      else
+      else if(request.status != 200) 
       {
-          alert("error: " + request.status +", " + request.statusText);
+        document.querySelector('#results').style.display = '';
+        document.querySelector('#results').innerHTML = "error: " + request.status +", " + request.statusText;
       }
     };
     formData.append("file", file);
