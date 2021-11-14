@@ -84,7 +84,7 @@ function postImage(blobData,file)
     document.querySelector('#results').innerHTML = "Processing...";
 
     const formData = new FormData()
-    formData.append('file', blobData)
+    formData.append('file', file)
 
     var localServer = "http://127.0.0.1:8000/recognise"
     var remoteServer = "https://vast-peak-10418.herokuapp.com/upload"
@@ -92,8 +92,7 @@ function postImage(blobData,file)
 
     fetch(remoteServer, 
       {method:"POST", headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "multipart/form-data"
+        "Access-Control-Allow-Origin": "*"
     },  mode: 'no-cors', body:formData}
       )
             .then(response => {
