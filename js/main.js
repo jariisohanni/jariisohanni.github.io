@@ -96,6 +96,11 @@ function postImage(blobData,file)
         const obj = JSON.parse(request.responseText)
 
         console.log(request.responseText);
+        if(obj.result < 0)
+        {
+          document.querySelector('#results').style.display = '';
+          document.querySelector('#results').innerHTML = "error: " + request.status +", " + request.statusText;
+        }
       }
       else if(request.status != 200) 
       {
