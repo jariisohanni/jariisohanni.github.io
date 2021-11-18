@@ -115,7 +115,7 @@ function postImage(blobData,file,imageB64)
         document.querySelector('#results').innerHTML = "error: " + request.status +", " + request.statusText;
       }
     };
-    var data = JSON.stringify({"key": "1", "engine": "AWS", "b64image": blobData});
+    var data = JSON.stringify({"key": "1", "engine": "azure", "b64image": blobData});
     request.send(data);
 
 }
