@@ -97,14 +97,16 @@ function postImage(blobData,file,imageB64)
         const obj = JSON.parse(request.responseText)
 
         console.log(request.responseText);
-        if(obj.CustomLabels != undefined && obj.CustomLabels.length < 0)
+        if(obj.CustomLabels != undefined)
         {
-          document.querySelector('#results').style.display = '';
-          document.querySelector('#results').innerHTML = "No objects!"
+ 
+          processReply(blobData,obj)
         }
         else
         {
-          processReply(blobData,obj)
+          document.querySelector('#results').style.display = '';
+          document.querySelector('#results').innerHTML = "error: " + obj.message;
+  
         }
       }
       else if(request.status != 200) 
@@ -116,54 +118,6 @@ function postImage(blobData,file,imageB64)
     var data = JSON.stringify({"key": "1", "engine": "AWS", "b64image": blobData});
     request.send(data);
 
-   /* const formData = new FormData()
-    formData.append('file', file)
-
-    var localServer = "http://127.0.0.1:8000/recognise"
-    var remoteServer = "https://vast-peak-10418.herokuapp.com/upload"
-
-    var data = new RawFormData();
-    data.append("file", new Blob("test"), file);
-    data.getOutputDeferred().then(function(formData)
-    {
-        fetch(remoteServer, 
-          {
-            method:"POST", 
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Content-Type": "multipart/form-data; boundary=" + data.getBoundry(),
-              "Content-Length": formData.length
-
-            },
-            mode: 'no-cors', 
-            body:formData}
-          )
-          .then(response => 
-          {
-              if (response.ok) 
-                return response;
-              else 
-                throw Error(`Server returned ${response.status}: ${response.statusText}`)
-          })
-          .then(r => r.json())
-          .then(data =>
-          {
-              processReply(data)
-          })
-          .catch(err => 
-          {
-              alert(err);
-          });
-
-        var xml = new XMLHttpRequest();
-        xml.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + data.getBoundry());
-        xml.setRequestHeader("Content-Length", formData.length);
-        xml.open(method, url);
-        xml.send(formData);
-    });*/
-
-
-    
 }
 
 function processReply(imageb64, json_data)
@@ -176,72 +130,80 @@ function processReply(imageb64, json_data)
 
     //Make image from source
     var image = new Image();
-    image.src = imageb64;
+    //img = new Image();
 
-    //Make new canvas and paint image to it
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d");
-
-    var MAX_WIDTH = 640;
-    var MAX_HEIGHT = 480;
-
-    var width = image.width;
-    var height = image.height;
-
-    // Change the resizing logic
-    if (width > height) {
-        if (width > MAX_WIDTH) {
-            height = height * (MAX_WIDTH / width);
-            width = MAX_WIDTH;
+    image.onload = function() 
+    {
+      //Make new canvas and paint image to it
+      var canvas = document.createElement("canvas");
+      var ctx = canvas.getContext("2d");
+  
+      var MAX_WIDTH = 640;
+      var MAX_HEIGHT = 480;
+  
+      var width = image.width;
+      var height = image.height;
+  
+      // Change the resizing logic
+      if (width > height) {
+          if (width > MAX_WIDTH) {
+              height = height * (MAX_WIDTH / width);
+              width = MAX_WIDTH;
+          }
+      } else {
+          if (height > MAX_HEIGHT) {
+              width = width * (MAX_HEIGHT / height);
+              height = MAX_HEIGHT;
+          }
+      }
+  
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(image, 0, 0, width, height);
+  
+      
+     //r json_data = JSON.parse(data);
+  
+      if(json_data.CustomLabels == undefined || json_data.CustomLabels.length == 0)
+          div.innerHTML = "No results";
+      else
+      {        
+          div.innerHTML = "Results:<br>";
+  
+          json_data.CustomLabels.forEach(Element => 
+          {
+  
+  
+              
+              div.innerHTML += Element.Name + "(" +Element.Confidence +  ")<br>";
+  
+              var x = Element.Geometry.BoundingBox.Left*width;
+              var y = Element.Geometry.BoundingBox.Top*height;
+              var w = Element.Geometry.BoundingBox["Width"]*width;
+              var h = Element.Geometry.BoundingBox.Height*height;
+  
+              // Actual resizing
+  
+              ctx.beginPath();
+              ctx.lineWidth = "2";
+              ctx.strokeStyle = "green";
+              ctx.rect(x, y, w, h);
+              ctx.stroke();
+              // Show resized image in preview element
+           
+  
+          });
         }
-    } else {
-        if (height > MAX_HEIGHT) {
-            width = width * (MAX_HEIGHT / height);
-            height = MAX_HEIGHT;
-        }
-    }
-
-    canvas.width = width;
-    canvas.height = height;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(image, 0, 0, width, height);
-
-    
-   //r json_data = JSON.parse(data);
-
-    if(json_data.CustomLabels == undefined || json_data.CustomLabels.length == 0)
-        div.innerHTML = "No results";
-    else
-    {        
-        div.innerHTML = "Results:<br>";
-
-        json_data.CustomLabels.forEach(Element => 
-        {
-
-
-            
-            div.innerHTML += Element.Name + "(" +Element.Confidence +  ")<br>";
-
-            var x = Element.Geometry.BoundingBox.Left*width;
-            var y = Element.Geometry.BoundingBox.Top*height;
-            var w = Element.Geometry.BoundingBox["Width"]*width;
-            var h = Element.Geometry.BoundingBox.Height*height;
-
-            // Actual resizing
-
-            ctx.beginPath();
-            ctx.lineWidth = "2";
-            ctx.strokeStyle = "green";
-            ctx.rect(x, y, w, h);
-            ctx.stroke();
-            // Show resized image in preview element
-         
-
-        });
         var dataurl = canvas.toDataURL(image.type);
         document.querySelector('#canvas').src = dataurl;
-
     }
+
+    image.src = imageb64;
+
+    
+
+    
     
     
 }
