@@ -24,8 +24,8 @@ window.onload = () => {
             mandatory: { minAspectRatio: 1.333, maxAspectRatio: 1.334 /*, /facingMode: ‘user’*/},
     optional: [
       { minFrameRate: 60 },
-      { maxWidth: 4032 },
-      { maxHeigth: 3024}
+      { maxWidth: 1600},
+      { maxHeigth: 1200}
     ]
           }
       }) .then(gotMedia)
