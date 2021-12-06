@@ -190,6 +190,11 @@ function processReply(imageb64, json_data)
               ctx.strokeStyle = "green";
               ctx.rect(x, y, w, h);
               ctx.stroke();
+
+              if(Element.Name == "toilet-paper-full" && Element.Confidence > 0.85)
+              {
+                alert("Full roll of toiltet paper found!");
+              }
               // Show resized image in preview element
            
   
